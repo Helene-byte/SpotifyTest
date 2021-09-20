@@ -2,7 +2,6 @@ import base64
 
 import requests
 import spotify_client
-#add credentials 
 client_id = ''
 client_secret = ''
 spotify= spotify_client.SpotifyAPI(client_id,client_secret)
@@ -19,7 +18,6 @@ def test_search_success():
     search_success=spotify.search("Beatles",search_type="Track")
     print(search_success)
     assert search_success !={}
-#
 #
 # def test_get_locations_for_us_90210_check_country_equals_united_states():
 #     response = requests.get("http://api.zippopotam.us/us/90210")
