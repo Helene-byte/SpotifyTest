@@ -6,7 +6,6 @@ client_id = 'd58bc94036cc4afbbef667a8ea730438'
 client_secret = 'eabb60a6c63744dc931ce15e7d8b0e81'
 spotify= spotify_client.SpotifyAPI(client_id,client_secret)
 
-
 def test_get_access_token():
     spotify.get_access_token()
     # and not an Exception

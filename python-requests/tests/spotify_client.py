@@ -15,14 +15,13 @@ class SpotifyAPI(object):
         self.access_token_did_expire = True
         self.token_url = "https://accounts.spotify.com/api/token"
 
-
     def get_client_credentials(self):
         """
         Returns a base64 encoded string
         """
         client_id = self.client_id
         client_secret = self.client_secret
-        if client_secret == None or client_id == None:
+        if client_secret is None or client_id == None:
             raise Exception("You must set client_id and client_secret")
         client_creds = f"{client_id}:{client_secret}"
         client_creds_b64 = base64.b64encode(client_creds.encode())
