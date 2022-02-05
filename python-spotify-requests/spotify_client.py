@@ -21,7 +21,7 @@ class SpotifyAPI(object):
         """
         client_id = self.client_id
         client_secret = self.client_secret
-        if client_secret is None or client_id == None:
+        if client_secret is None or client_id is None:
             raise Exception("You must set client_id and client_secret")
         client_creds = f"{client_id}:{client_secret}"
         client_creds_b64 = base64.b64encode(client_creds.encode())
@@ -33,7 +33,8 @@ class SpotifyAPI(object):
             "Authorization": f"Basic {client_creds_b64}"
         }
 
-    def get_token_data(self):
+    @staticmethod
+    def get_token_data():
         return {
             "grant_type": "client_credentials"
         }
@@ -62,7 +63,7 @@ class SpotifyAPI(object):
         if expires < now:
             self.perform_auth()
             return self.get_access_token()
-        elif token == None:
+        elif token is None:
             self.perform_auth()
             return self.get_access_token()
         return token
@@ -98,11 +99,11 @@ class SpotifyAPI(object):
         return r.json()
 
     def search(self, query=None, operator=None, operator_query=None, search_type='artist'):
-        if query == None:
+        if query is None:
             raise Exception("A query is required")
         if isinstance(query, dict):
             query = " ".join([f"{k}:{v}" for k, v in query.items()])
-        if operator != None and operator_query != None:
+        if operator is not None and operator_query is not None:
             if operator.lower() == "or" or operator.lower() == "not":
                 operator = operator.upper()
                 if isinstance(operator_query, str):
