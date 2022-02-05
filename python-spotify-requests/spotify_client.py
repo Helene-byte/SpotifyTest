@@ -28,6 +28,9 @@ class SpotifyAPI(object):
         return client_creds_b64.decode()
 
     def get_token_headers(self):
+        """
+                Returns token headers
+        """
         client_creds_b64 = self.get_client_credentials()
         return {
             "Authorization": f"Basic {client_creds_b64}"
@@ -51,7 +54,6 @@ class SpotifyAPI(object):
         self.access_token = data['access_token']
         expires_in = data['expires_in']  # seconds
         expires = now + datetime.timedelta(seconds=expires_in)
-        # self.access_token = access_token
         self.access_token_expires = expires
         self.access_token_did_expire = expires < now
         return True
