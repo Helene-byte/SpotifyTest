@@ -2,8 +2,8 @@ import base64
 
 import requests
 import spotify_client
-client_id = ''
-client_secret = ''
+client_id = 'd58bc94036cc4afbbef667a8ea730438'
+client_secret = 'eabb60a6c63744dc931ce15e7d8b0e81'
 spotify= spotify_client.SpotifyAPI(client_id,client_secret)
 
 
