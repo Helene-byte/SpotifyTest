@@ -4,9 +4,7 @@ from urllib.parse import urlencode
 import requests
 
 
-
 class SpotifyAPI(object):
-
 
     def __init__(self, client_id, client_secret, *args, **kwargs):
         super().__init__(*args, **kwargs)
