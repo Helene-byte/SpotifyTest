@@ -6,17 +6,17 @@ import requests
 
 
 class SpotifyAPI(object):
-    access_token = None
-    access_token_expires = datetime.datetime.now()
-    access_token_did_expire = True
-    client_id = None
-    client_secret = None
-    token_url = "https://accounts.spotify.com/api/token"
+
 
     def __init__(self, client_id, client_secret, *args, **kwargs):
         super().__init__(*args, **kwargs)
         self.client_id = client_id
         self.client_secret = client_secret
+        self.access_token = None
+        self.access_token_expires = datetime.datetime.now()
+        self.access_token_did_expire = True
+        self.token_url = "https://accounts.spotify.com/api/token"
+
 
     def get_client_credentials(self):
         """
@@ -50,10 +50,10 @@ class SpotifyAPI(object):
             raise Exception("Could not authenticate client.")
         data = r.json()
         now = datetime.datetime.now()
-        access_token = data['access_token']
+        self.access_token = data['access_token']
         expires_in = data['expires_in']  # seconds
         expires = now + datetime.timedelta(seconds=expires_in)
-        self.access_token = access_token
+        # self.access_token = access_token
         self.access_token_expires = expires
         self.access_token_did_expire = expires < now
         return True
