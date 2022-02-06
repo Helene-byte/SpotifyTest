@@ -5,9 +5,6 @@ spotify = spotify_client.SpotifyAPI(client_id, client_secret)
 
 
 def test_get_access_token():
-    spotify.get_access_token()
-    # and not an Exception
-    print(spotify.get_access_token())
     assert spotify.get_access_token() is not None
 
 

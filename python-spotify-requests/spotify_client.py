@@ -25,6 +25,7 @@ class SpotifyAPI(object):
             raise Exception("You must set client_id and client_secret")
         client_creds = f"{client_id}:{client_secret}"
         client_creds_b64 = base64.b64encode(client_creds.encode())
+        print("Client credentials encoded")
         return client_creds_b64.decode()
 
     def get_token_headers(self):
@@ -32,6 +33,7 @@ class SpotifyAPI(object):
                 Returns token headers
         """
         client_creds_b64 = self.get_client_credentials()
+        print("Token headers prepared")
         return {
             "Authorization": f"Basic {client_creds_b64}"
         }
@@ -46,9 +48,11 @@ class SpotifyAPI(object):
         token_url = self.token_url
         token_data = self.get_token_data()
         token_headers = self.get_token_headers()
+        print("Sending request...")
         r = requests.post(token_url, data=token_data, headers=token_headers)
         if r.status_code not in range(200, 299):
             raise Exception("Could not authenticate client.")
+        print("Access token received.")
         data = r.json()
         now = datetime.datetime.now()
         self.access_token = data['access_token']
@@ -56,18 +60,23 @@ class SpotifyAPI(object):
         expires = now + datetime.timedelta(seconds=expires_in)
         self.access_token_expires = expires
         self.access_token_did_expire = expires < now
+        print("Authorization successful")
         return True
 
     def get_access_token(self):
         token = self.access_token
         expires = self.access_token_expires
         now = datetime.datetime.now()
+        print("\n"+"Check token ... ")
         if expires < now:
+            print(f"Token is expired. Expiration date {expires} Request token ... ")
             self.perform_auth()
             return self.get_access_token()
         elif token is None:
+            print("Token is undefined. Request token ... ")
             self.perform_auth()
             return self.get_access_token()
+        print("Token is valid.")
         return token
 
     def get_resource_header(self):
