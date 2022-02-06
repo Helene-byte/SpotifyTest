@@ -76,7 +76,7 @@ class SpotifyAPI(object):
             print("Token is undefined. Request token ... ")
             self.perform_auth()
             return self.get_access_token()
-        print("Token is valid.")
+        print(f"Token is valid {token}.")
         return token
 
     def get_resource_header(self):
@@ -104,21 +104,28 @@ class SpotifyAPI(object):
         headers = self.get_resource_header()
         endpoint = "https://api.spotify.com/v1/search"
         lookup_url = f"{endpoint}?{query_params}"
+        print(f"Sending request {lookup_url} ....")
         r = requests.get(lookup_url, headers=headers)
         if r.status_code not in range(200, 299):
+            print(f"status code {r.status_code}")
             return {}
-        return r.json()
+        replies = r.json()
+        for reply in replies['tracks']['items']:
+            print(f"Reply {replies['tracks']['items']}")
+        return replies
 
     def search(self, query=None, operator=None, operator_query=None, search_type='artist'):
         if query is None:
             raise Exception("A query is required")
         if isinstance(query, dict):
             query = " ".join([f"{k}:{v}" for k, v in query.items()])
+        print(f"Query {query} is valid.")
         if operator is not None and operator_query is not None:
             if operator.lower() == "or" or operator.lower() == "not":
                 operator = operator.upper()
                 if isinstance(operator_query, str):
                     query = f"{query} {operator} {operator_query}"
+        print(f"Query with operator {query} {operator} {operator_query} is valid.")
         query_params = urlencode({"q": query, "type": search_type.lower()})
-        print(query_params)
+        print(f"Query to request: {query_params}")
         return self.base_search(query_params)
