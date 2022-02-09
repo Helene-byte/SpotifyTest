@@ -30,7 +30,7 @@ class SpotifyAPI(object):
 
     def get_token_headers(self):
         """
-                Returns token headers
+        Returns token headers
         """
         client_creds_b64 = self.get_client_credentials()
         print("Token headers prepared")
@@ -40,11 +40,18 @@ class SpotifyAPI(object):
 
     @staticmethod
     def get_token_data():
+        """
+        :return:             "grant_type": "client_credentials"
+
+        """
         return {
             "grant_type": "client_credentials"
         }
 
     def perform_auth(self):
+        """
+        :return: True if authorisation successful
+        """
         token_url = self.token_url
         token_data = self.get_token_data()
         token_headers = self.get_token_headers()
@@ -64,6 +71,9 @@ class SpotifyAPI(object):
         return True
 
     def get_access_token(self):
+        """
+        :return: token
+        """
         token = self.access_token
         expires = self.access_token_expires
         now = datetime.datetime.now()
@@ -80,6 +90,9 @@ class SpotifyAPI(object):
         return token
 
     def get_resource_header(self):
+        """
+        :return: header
+        """
         access_token = self.get_access_token()
         headers = {
             "Authorization": f"Bearer {access_token}"
@@ -111,7 +124,7 @@ class SpotifyAPI(object):
             return {}
         replies = r.json()
         for reply in replies['tracks']['items']:
-            print(f"Reply {replies['tracks']['items']}")
+            print(f"Reply {reply['name']} {reply['type']}")
         return replies
 
     def search(self, query=None, operator=None, operator_query=None, search_type='artist'):
